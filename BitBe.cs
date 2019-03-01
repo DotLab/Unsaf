@@ -1,32 +1,29 @@
 ﻿namespace Unsaf {
-	[Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
-	public static unsafe class BitBe {
-		public static short ReadInt16(byte *bytes, int *i) {
-			int j = *i;
-			short v = (short)((sbyte)bytes[j] << 8 | bytes[j + 1]); 
-			*i = j + 2;
+	public static class BitBe {
+		public static short ReadInt16(byte[] bytes, ref int i) {
+			short v = (short)((sbyte)bytes[i] << 8 | bytes[i + 1]); 
+			i += 2;
 			return v;
 		}
 
-		public static int ReadInt24(byte *bytes, int *i) {
-			int j = *i;
-			int v = (int)((sbyte)bytes[j] << 16 | bytes[j + 1] << 8 | bytes[j + 2]); 
-			*i = j + 3;
+		public static int ReadInt24(byte[] bytes, ref int i) {
+			int v = (int)((sbyte)bytes[i] << 16 | bytes[i + 1] << 8 | bytes[i + 2]); 
+			i += 3;
 			return v;
 		}
 
-		public static int ReadInt32(byte *bytes, int *i) {
-			int j = *i;
-			int v = (int)((sbyte)bytes[j] << 24 | bytes[j + 1] << 16 | bytes[j + 2] << 8 | bytes[j + 3]); 
-			*i = j + 4;
+		public static int ReadInt32(byte[] bytes, ref int i) {
+			int v = (int)((sbyte)bytes[i] << 24 | bytes[i + 1] << 16 | bytes[i + 2] << 8 | bytes[i + 3]); 
+			i += 4;
 			return v;
 		}
 
-		public static int ReadVlv(byte *bytes, int *i) {
+		public static int ReadVlv(byte[] bytes, ref int i) {
 			int v = 0;
 			byte b;
 			do {
-				b = Bit.ReadByte(bytes, i);
+				b = bytes[i];
+				i += 1;
 				v = (v << 7) | (b & 0x7F);
 			} while ((b & 0x80) != 0) ;
 			return v;
